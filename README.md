@@ -3,7 +3,7 @@
 ***
  ***Everything that i already did in ~~python~~ , here you  will found codes about:*** 
  1. *Games* 🎮
- 2. *Data Science* 🔍
+ 2. *Data Science and Data Analitcs* 🔍
  3. *AI* 🤖
  4. *Web Scrapping* 🎣
  5. *Projects that i did when i was in college* 🏫
