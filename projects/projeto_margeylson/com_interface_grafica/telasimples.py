@@ -22,7 +22,7 @@ class LoginWindow(QMainWindow):
 
         #colocando logo na tela
         logo_label = QLabel()
-        pixmap = QPixmap("imgs/logo_menor.png") # Carrega a imagem da logo
+        pixmap = QPixmap('projects/projeto_margeylson/com_interface_grafica/imgs/logo_menor.png') # Carrega a imagem da logo
         pixmap_reduzida = pixmap.scaled(100, 100)
         logo_label.setPixmap(pixmap_reduzida)
         logo_label.setAlignment(Qt.AlignmentFlag.AlignCenter)  # Centraliza a logo
@@ -87,12 +87,12 @@ class JanelaPrincipal(QMainWindow):
         button_sair        = QPushButton('Sair')
         
         # Adicionando ícones aos botões
-        button_cadastrar.setIcon(QIcon('imgs/cadastrar_icon.png'))
-        button_pesquisar.setIcon(QIcon('imgs/pesquisar_icon.png'))
-        button_relatorio.setIcon(QIcon('imgs/relatorio_icon.png'))
-        button_editar.setIcon(QIcon('imgs/editar_icon.png'))
-        button_excluir.setIcon(QIcon('imgs/excluir_icon.png'))
-        button_sair.setIcon(QIcon('imgs/sair_icon.png'))
+        button_cadastrar.setIcon(QIcon('projects/projeto_margeylson/com_interface_grafica/imgs/cadastrar_icon.png'))
+        button_pesquisar.setIcon(QIcon('projects/projeto_margeylson/com_interface_grafica/imgs/pesquisar_icon.png'))
+        button_relatorio.setIcon(QIcon('projects/projeto_margeylson/com_interface_grafica/imgs/relatorio_icon.png'))
+        button_editar.setIcon(QIcon('projects/projeto_margeylson/com_interface_grafica/imgs/editar_icon.png'))
+        button_excluir.setIcon(QIcon('projects/projeto_margeylson/com_interface_grafica/imgs/excluir_icon.png'))
+        button_sair.setIcon(QIcon('projects/projeto_margeylson/com_interface_grafica/imgs/sair_icon.png'))
 
         #modificando nossos elementos
         button_sair.clicked.connect(self.sair)
