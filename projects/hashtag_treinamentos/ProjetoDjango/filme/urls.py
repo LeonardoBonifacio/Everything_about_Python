@@ -1,10 +1,10 @@
 # url - view - templates
 
 from django.urls import path,include
-from .views import homepage
+from .views import HomePage
 
 
 
 urlpatterns = [
-    path('', homepage),
+    path('', HomePage),
 ]
