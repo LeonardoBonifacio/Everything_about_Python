@@ -7,8 +7,9 @@
     - Editar Perfil
 - Filmes/Series
     - Episodios
-        - videos
+        - videos(link do video)
         - título
+        - qual filme esse episodio faz referencia
     - Thumb
     - Descrição
     - Categoria
