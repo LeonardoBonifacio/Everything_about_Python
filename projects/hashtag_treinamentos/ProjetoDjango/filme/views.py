@@ -32,9 +32,22 @@ class DetalhesFilme(DetailView):
         context = super(DetalhesFilme, self).get_context_data(**kwargs)
         # filtrar a minha tabela de filmes pegando os filmes cuja categoria é igual a categoria do filme da página (object)
         # self.get_object() == filme
-        filmes_relacionados = Filme.objects.filter(categoria=self.get_object().categoria)[0:5]
+        filmes_relacionados = self.model.objects.filter(categoria=self.get_object().categoria)[0:5]
         context["filmes_relacionados"] = filmes_relacionados
         return context
+
+
+class PesquisaFilme(ListView):
+    template_name = "pesquisa.html"
+    model = Filme
+
+    def get_queryset(self):
+        termo_pesquisa = self.request.GET.get('query')
+        if termo_pesquisa:
+            object_list = self.model.objects.filter(titulo__icontains = termo_pesquisa)
+            return object_list
+        else:
+            return None
 
 
 
