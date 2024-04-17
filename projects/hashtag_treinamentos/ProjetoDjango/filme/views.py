@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .models import Filme
 from django.views.generic import TemplateView,ListView,DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin #Class que bloqueia o acesso as Views 
+                                                          # Precisa ser o primeiro parametro que a view recebe 
 
 # Create your views here.
 
@@ -9,13 +11,19 @@ class HomePage(TemplateView):
     template_name = "homepage.html"
 
 
+    def get(self,request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('filme:homefilmes')
+        else:
+            return super().get(request, *args, **kwargs) # redireciona para a homepage
+            
 
-class HomeFilmes(ListView):
+class HomeFilmes(LoginRequiredMixin, ListView):
     template_name = "homefilmes.html"
     model = Filme
     # object_list
 
-class DetalhesFilme(DetailView):
+class DetalhesFilme(LoginRequiredMixin, DetailView):
     template_name = "detalhesfilme.html"
     model =  Filme
 
@@ -26,6 +34,8 @@ class DetalhesFilme(DetailView):
         filme = self.get_object()
         filme.visualizacoes += 1
         filme.save() # salva as alterações feitas no banco de dados
+        usuario = request.user
+        usuario.filmes_vistos.add(filme) 
         return super().get(request, *args, **kwargs) # redirecionao o usuário para a url final
 
     def get_context_data(self, **kwargs):
@@ -37,7 +47,7 @@ class DetalhesFilme(DetailView):
         return context
 
 
-class PesquisaFilme(ListView):
+class PesquisaFilme(LoginRequiredMixin, ListView):
     template_name = "pesquisa.html"
     model = Filme
 
@@ -48,6 +58,10 @@ class PesquisaFilme(ListView):
             return object_list
         else:
             return None
+
+
+class Paginaperfil(LoginRequiredMixin, TemplateView):
+    template_name = 'editarperfil.html'
 
 
 

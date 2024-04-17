@@ -134,3 +134,11 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#Link pra onde o usuario vai ser levado quando fizer login
+LOGIN_REDIRECT_URL = 'filme:homefilmes'
+
+# View que o usuário faz login
+LOGIN_URL = 'filme:login'
+
+
