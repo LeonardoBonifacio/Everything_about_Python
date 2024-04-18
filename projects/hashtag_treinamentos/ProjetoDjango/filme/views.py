@@ -1,9 +1,9 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,reverse
 from .models import Filme
-from django.views.generic import TemplateView,ListView,DetailView
+from django.views.generic import TemplateView,ListView,DetailView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin #Class que bloqueia o acesso as Views 
                                                           # Precisa ser o primeiro parametro que a view recebe 
-
+from .forms import CriaContaForm
 # Create your views here.
 
 
@@ -64,6 +64,17 @@ class Paginaperfil(LoginRequiredMixin, TemplateView):
     template_name = 'editarperfil.html'
 
 
+class Criarconta(FormView):
+    template_name = 'criarconta.html'
+    form_class = CriaContaForm
+
+
+    def form_valid(self,form):
+        form.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('filme:login')
 
 
 # def HomePage(request):
