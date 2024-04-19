@@ -1,14 +1,15 @@
 from django.shortcuts import render,redirect,reverse
-from .models import Filme
-from django.views.generic import TemplateView,ListView,DetailView, FormView
+from .models import Filme, Usuario
+from django.views.generic import TemplateView,ListView,DetailView, FormView,UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin #Class que bloqueia o acesso as Views 
                                                           # Precisa ser o primeiro parametro que a view recebe 
-from .forms import CriaContaForm
+from .forms import CriaContaForm,FormHomePage
 # Create your views here.
 
 
-class HomePage(TemplateView):
+class HomePage(FormView):
     template_name = "homepage.html"
+    form_class = FormHomePage
 
 
     def get(self,request, *args, **kwargs):
@@ -16,6 +17,16 @@ class HomePage(TemplateView):
             return redirect('filme:homefilmes')
         else:
             return super().get(request, *args, **kwargs) # redireciona para a homepage
+    
+
+    def get_success_url(self):
+        email = self.request.POST.get('email')
+        usuarios = Usuario.objects.filter(email=email)
+        if usuarios:
+            return reverse('filme:login')
+        else:
+            return reverse('filme:criarconta')
+
             
 
 class HomeFilmes(LoginRequiredMixin, ListView):
@@ -60,8 +71,13 @@ class PesquisaFilme(LoginRequiredMixin, ListView):
             return None
 
 
-class Paginaperfil(LoginRequiredMixin, TemplateView):
+class Paginaperfil(LoginRequiredMixin, UpdateView):
     template_name = 'editarperfil.html'
+    model = Usuario
+    fields = ['first_name', 'last_name', 'email']
+
+    def get_success_url(self):
+        return reverse('filme:homefilmes')
 
 
 class Criarconta(FormView):
