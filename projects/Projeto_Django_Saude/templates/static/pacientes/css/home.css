@@ -77,6 +77,10 @@ th {
 }
 
 .dia-semana{
+    float: left;
+}
+
+.mes{
     float: right;
 }
 
