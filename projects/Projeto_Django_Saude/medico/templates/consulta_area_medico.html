@@ -43,25 +43,35 @@
                 <div class="row">
                     <div class="col-md">
                         <p style="font-size: 20px" class="p-bold">Paciente {{consulta.paciente.username}} <i class="bi bi-patch-check-fill icon-main"></i></p>
-                        <p>{{dado_medico.descricao}}</p>
                         <p class="p-bold">{{consulta.data_aberta.data}}</p>
                     </div>
                 </div> 
                 <hr>
                 <br>
                 <div class="row">
+
                     <div class="col-md">
                         
                         <p><i class="color-dark bi bi-check-circle-fill"></i> Consulta agendada</p>
+
                     </div>
+
                     <div class="col-md">
+
                         <p><i class="{% if consulta.status == 'F' %}color-dark{% endif %} bi bi-check-circle-fill"></i> Consulta realizada</p>
+
                     </div>
+
                     <div class="col-md">
+
                         <p><i class="bi bi-check-circle-fill"></i> Consulta Avaliada</p>
+
                     </div>
+
                 </div>
+
                 <hr>
+
                 <h3 class="p-bold">Detalhes da consulta</h3>
                 <p style="font-size:20px"><i class="bi bi-calendar3 color-dark"></i>&nbsp {{consulta.data_aberta.data}}</p>
                 <a style="cursor: auto;" class="btn btn-dark-color-outline btn-lg">Adicione em seu calendário!</a>

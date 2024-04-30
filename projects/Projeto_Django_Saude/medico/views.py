@@ -25,7 +25,7 @@ def cadastro_medico(request):
         rua = request.POST.get('rua')
         bairro = request.POST.get('bairro')
         numero = request.POST.get('numero')        
-        especialidade = request.POST.get('especialidade')
+        especialidade = request.POST.get('especialidade')# id da especialidade
         descricao = request.POST.get('descricao')
         valor_consulta = request.POST.get('valor_consulta')
         cim = request.FILES.get('cim')
@@ -71,11 +71,11 @@ def abrir_horario(request):
             messages.add_message(request, constants.WARNING, 'A data não pode ser anterior a data atual')
             return redirect('/medicos/abrir_horario')
         
-        horario_abrir = DatasAbertas(
+        horario_aberto = DatasAbertas(
             data=data,
             User=request.user
         )
-        horario_abrir.save()
+        horario_aberto.save()
 
         messages.add_message(request, constants.SUCCESS, 'Horário cadastrado com sucesso!')
         return redirect('/medicos/abrir_horario')

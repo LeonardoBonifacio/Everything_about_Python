@@ -1,9 +1,10 @@
 from django.shortcuts import render,redirect
-from medico.views import DadosMedico, Especialidades, DatasAbertas,is_medico
+from medico.models import DadosMedico, Especialidades, DatasAbertas, is_medico
 from datetime import datetime
-from .models import Consulta,Documento
+from .models import Consulta, Documento
 from django.contrib import messages
 from django.contrib.messages import constants
+
 # Create your views here.
 
 def home(request):
@@ -41,7 +42,7 @@ def agendar_horario(request,id_data_aberta):
         data_aberta.agendado = True
         data_aberta.save()
         messages.add_message(request,constants.SUCCESS,'Consulta Agendado com Sucesso')
-        return redirect('/pacientes/minhas_consultas')
+        return redirect('/minhas_consultas')
 
 
 def minhas_consultas(request):
