@@ -11,7 +11,6 @@ def login(request):
 
 def cadastro(request):
     status = request.GET.get('status')
-
     return render(request, 'cadastro.html',{'status':status})
 
 
@@ -22,14 +21,15 @@ def valida_cadastro(request):
 
     usuario = Usuario.objects.filter(email=email)
 
+    if len(usuario) > 0:
+        return redirect('/auth/cadastro/?status=3')
+
     if len(nome.strip()) == 0 or len(email.strip()) == 0:
         return redirect('/auth/cadastro/?status=1')
     
     if len(senha) < 8:
         return redirect('/auth/cadastro/?status=2')
 
-    if len(usuario) > 0:
-        return redirect('/auth/cadastro/?status=3')
 
     try:
         senha = sha256(senha.encode()).hexdigest() # Criptografa a senha
@@ -57,9 +57,8 @@ def valida_login(request):
     elif len(usuario) > 0:
         # armazenando numa session, que é uma variavel global do sistema, o id do usuario que acabou de fazer login
         request.session['usuario'] = usuario[0].id
-        return redirect(f'/livro/home/')
+        return redirect('/livro/home/')
 
-    return HttpResponse(f'{email}-{senha}')
 
 def sair(request):
     request.session.flush() # Limpa a sessão em que o usuário estava logado
