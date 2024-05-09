@@ -5,8 +5,12 @@
 {% block 'conteudo' %}
 
 <div class="container">
+      {% if status_categoria == '1' %}
+        <div class="alert alert-success" role="alert">
+            Categoria Cadastrada Com Sucesso
+        </div>
+      {% endif %}
     <div class="row">
-
         {% for livro in livros %}
             <div class="col-md">
                 <div class="card" style="width: 18rem;">
