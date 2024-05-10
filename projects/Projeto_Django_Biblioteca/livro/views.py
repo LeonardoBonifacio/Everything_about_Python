@@ -12,14 +12,18 @@ def home(request):
         form = CadastroLivro()
         form.fields['usuario'].initial = request.session['usuario']
         form.fields['categoria'].queryset = Categoria.objects.filter(usuario = usuario)
-
         form_categoria = CategoriaLivro()
         status_categoria = request.GET.get('cadastro_categoria')
+        usuarios = Usuario.objects.all()
+        livros_emprestar = Livros.objects.filter(usuario=usuario).filter(emprestado=False)
+
         return render(request, 'home.html', {'livros':livros, 
                                              'usuario_logado': request.session.get('usuario'), 
                                              'form':form,
                                              'form_categoria':form_categoria,
-                                             'status_categoria':status_categoria})
+                                             'status_categoria':status_categoria,
+                                             'usuarios':usuarios,
+                                             'livros_emprestar':livros_emprestar})
     else:
         return redirect('/auth/login/?status=2')
 
@@ -34,14 +38,18 @@ def ver_livros(request, id):
             form = CadastroLivro()
             form.fields['usuario'].initial = request.session['usuario']
             form.fields['categoria'].queryset = Categoria.objects.filter(usuario = usuario)
-
             form_categoria = CategoriaLivro()
+            usuarios = Usuario.objects.all()
+            livros_emprestar = Livros.objects.filter(usuario=usuario).filter(emprestado=False)
+
             return render(request, 'ver_livro.html', {'livro':livro, 
                                                       'categoria_livro':categoria_livro, 
                                                       'emprestimos':emprestimos,
                                                       'usuario_logado': request.session.get('usuario'),
                                                       'form':form,
-                                                      'form_categoria':form_categoria})
+                                                      'form_categoria':form_categoria,
+                                                      'usuarios': usuarios,
+                                                      'livros_emprestar':livros_emprestar})
         else:
             return HttpResponse('Esse livro não é seu')
     return redirect('/auth/login/?status=2')
@@ -79,3 +87,27 @@ def cadastrar_categoria(request):
         return redirect('/livro/home?cadastro_categoria=1')
     else:
         return HttpResponse('Pare de querer trocar html das coisa ')
+
+
+def cadastrar_emprestimo(request):
+    if request.method == 'POST':
+        nome_emprestado = request.POST.get('nome_emprestado')
+        nome_emprestado_anonimo = request.POST.get('nome_emprestado_anonimo')
+        livro_emprestado = request.POST.get('livro_emprestado')
+        if nome_emprestado_anonimo:
+             emprestimo = Emprestimo(
+            nome_emprestado_anonimo=nome_emprestado_anonimo,
+            livro_id=livro_emprestado
+        )
+        else:
+            emprestimo = Emprestimo(
+                nome_emprestado_id=nome_emprestado,
+                livro_id=livro_emprestado
+            )
+        emprestimo.save()
+
+        livro = Livros.objects.get(id = livro_emprestado)
+        livro.emprestado = True
+        livro.save()
+
+        return HttpResponse('Empréstimo realizado com sucesso')

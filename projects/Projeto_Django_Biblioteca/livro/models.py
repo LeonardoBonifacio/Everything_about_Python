@@ -1,6 +1,9 @@
-from django.db import models
-from django.utils.timezone import now
+from django.db import models    
+from datetime import date
+import datetime
+from django.db.models.base import Model
 from usuarios.models import Usuario
+
 # Create your models here.
 
 
@@ -15,11 +18,11 @@ class Categoria(models.Model):
 class Livros(models.Model):
     nome = models.CharField(max_length = 100)
     autor = models.CharField(max_length = 30)
-    co_autor = models.CharField(max_length = 30, blank = True, null = True)# blank = True quer dizer campo não obrigatório
-    data_cadastro = models.DateField(default = now)
+    co_autor = models.CharField(max_length = 30, blank = True)
+    data_cadastro = models.DateField(default = date.today)
     emprestado = models.BooleanField(default = False)
-    categoria = models.ForeignKey(Categoria,on_delete=models.DO_NOTHING)
-    usuario = models.ForeignKey(Usuario,on_delete=models.DO_NOTHING)
+    categoria = models.ForeignKey(Categoria, on_delete=models.DO_NOTHING)
+    usuario = models.ForeignKey(Usuario, on_delete=models.DO_NOTHING)
 
     class Meta:
         verbose_name = 'Livro'# Nome que aparece na minha página de admin do django
@@ -28,11 +31,18 @@ class Livros(models.Model):
         return self.nome
 
 class Emprestimo(models.Model):
-    nome_emprestado = models.ForeignKey(Usuario,on_delete=models.DO_NOTHING, blank = True, null = True)
+    choices = (
+        ('P', 'Péssimo'),
+        ('R', 'Ruim'),
+        ('B', 'Bom'),
+        ('O','Ótimo')
+    )
+    nome_emprestado = models.ForeignKey(Usuario, on_delete=models.DO_NOTHING, blank = True, null = True)
     nome_emprestado_anonimo = models.CharField(max_length = 30, blank = True, null = True)
-    data_emprestimo = models.DateField(blank = True, null = True)
-    data_devolucao = models.DateField(blank = True, null = True)
-    livro = models.ForeignKey(Livros,on_delete=models.DO_NOTHING)
+    data_emprestimo = models.DateTimeField(default=datetime.datetime.now())
+    data_devolucao = models.DateTimeField(blank = True, null = True)
+    livro = models.ForeignKey(Livros, on_delete=models.DO_NOTHING)
+    avaliacao = models.CharField(max_length=1, choices=choices, null=True, blank=True)
 
-    def __str__(self):
-        return f"{self.nome_emprestado} - {self.livro}"
+    def __str__(self) -> str:
+        return f"{self.nome_emprestado} | {self.livro}"
