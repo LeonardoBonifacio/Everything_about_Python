@@ -61,6 +61,7 @@ def ver_livros(request, id):
                                                       'emprestimos':emprestimos,
                                                       'usuario_logado': request.session.get('usuario'),
                                                       'form':form,
+                                                      'id_livro':id,
                                                       'form_categoria':form_categoria,
                                                       'usuarios': usuarios,
                                                       'livros_emprestar':livros_emprestar,
@@ -172,3 +173,13 @@ def seus_emprestimos(request):
                                                     "emprestimos": emprestimos,
                                                     'total_livros' : total_livros})
 
+def processa_avaliacao(request):
+    id_emprestimo = request.POST.get('id_emprestimo')
+    id_livro = request.POST.get('id_livro')
+    opcoes = request.POST.get('opcoes')
+
+    emprestimo = Emprestimo.objects.get(id = id_emprestimo)
+    emprestimo.avaliacao = opcoes
+    emprestimo.save()
+    
+    return redirect(f'/livro/ver_livro/{id_livro}')

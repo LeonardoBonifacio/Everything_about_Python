@@ -87,6 +87,7 @@
                 <th scope="col">Data Empréstimo</th>
                 <th scope="col">Data Devolução</th>
                 <th scope="col">Tempo de Duração</th>
+                <th scope="col">Avaliação</th>
               </tr>
             </thead>
             <tbody>
@@ -104,9 +105,53 @@
                         <td> Sem Data de Devolução </td>
                     {% endif %}
                     <td>{{ emprestimo.data_devolucao|mostra_duracao:emprestimo.data_emprestimo }} </td>
+                    <td>
+                    {% if emprestimo.avaliacao == None %}
+                        <button onclick="avaliacao({{emprestimo.id}})" class="btn btn-info" data-toggle="modal" data-target="#exampleModal1">Avaliar</button>
+                    {% else %}
+                        {{ emprestimo.avaliacao }}
+                    {% endif %}
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
           </table>
     </div>
+
+
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Avaliar Empréstimo</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form action="{% url 'processa_avaliacao' %}" method="POST">
+                {% csrf_token %}
+                <input id="id_emprestimo" type="hidden" name="id_emprestimo">
+                <input type="hidden" name="id_livro" value="{{id_livro}}">
+                <select name="opcoes" class="form-control">
+                    <option value="P">Péssimo</option>
+                    <option value="R">Ruim</option>
+                    <option value="B">Bom</option>
+                    <option value="O">Ótimo</option>
+                </select>
+                <br>
+                <input type="submit" class="btn btn-info" value="Avaliar">
+                
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function avaliacao(id_emprestimo){
+        input_emprestimo = document.getElementById('id_emprestimo')
+        input_emprestimo.value = id_emprestimo
+    }
+</script>
 {% endblock %}
