@@ -62,6 +62,7 @@
             <br>
             <br>
             <hr>
+
               <div style="display: none;" id="livro">
                 <form action="{% url 'cadastrar_livro' %}" method="POST" enctype="multipart/form-data">
                   {% csrf_token  %}
@@ -113,6 +114,7 @@
 
                 </form>
               </div>
+              
               <div id="devolucao" style="display: none;">
                 <form action="{% url 'devolver_livro' %}" method="POST">
                 {% csrf_token %}
@@ -120,12 +122,12 @@
                       {% for livro in livros_emprestados %}
                           <option value="{{livro.id}}">{{ livro.nome }}</option>
                       {% endfor %}
-
                     </select>
                     <br>
                     <input type="submit" class="btn btn-warning" value="Devolver">
                 </form>
               </div>
+
           </div>
         </div>
       </div>

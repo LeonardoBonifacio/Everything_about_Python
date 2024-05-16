@@ -26,7 +26,7 @@ class Livros(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.DO_NOTHING)
 
     class Meta:
-        verbose_name = 'Livro'# Nome que aparece na minha página de admin do django
+        verbose_name = 'Livro' # Nome que aparece na minha página de admin do django
 
     def __str__(self):
         return self.nome
