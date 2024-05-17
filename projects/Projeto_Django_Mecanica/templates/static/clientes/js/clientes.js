@@ -16,7 +16,7 @@ function exibir_form(tipo){
         add_cliente.style.display = "block"
 
     }else if(tipo == "2"){
-        add_cliente.style.display = "none";
+        add_cliente.style.display = "none"
         att_cliente.style.display = "block"
     }
 
@@ -24,27 +24,24 @@ function exibir_form(tipo){
 
 
 function dados_cliente(){
-    cliente = document.getElementById('cliente-select')
-    csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value
-    id_cliente = cliente.value
+    cliente = document.getElementById('cliente-select') // id do cliente
+    csrf_token = document.querySelector('[name=csrfmiddlewaretoken]').value // captura o csfr_token inserido no html
 
     data = new FormData()
-    data.append('id_cliente', id_cliente)
+    data.append('id_cliente', cliente.value)
 
+    // fetch faz uma requisição pra determinada url
     fetch("/clientes/atualiza_cliente/",{
         method: "POST",
         headers: {
             'X-CSRFToken': csrf_token,
         },
-        body: data
+        body: data // enviando o id do cliente, para que nossa aplicação possa pegar os dados no bd
 
-    }).then(function(result){
-        return result.json()
-    }).then(function(data){
+    }).then(function(result){ // then é acionado quando o servidor devolver uma resposta
+        return result.json() // result é a resposta do back-end, nesse caso convertida para json
+    }).then(function(data){ // parametro data é o que é retornado pelo then() acima ou seja o result.json
         document.getElementById('form-att-cliente').style.display = 'block'
-        
-        id = document.getElementById('id')
-        id.value = data['cliente_id']
 
         nome = document.getElementById('nome')
         nome.value = data['cliente']['nome']
@@ -59,32 +56,32 @@ function dados_cliente(){
         email.value = data['cliente']['email']
 
         div_carros = document.getElementById('carros')
-
+        div_carros.innerHTML = ""
         for(i=0; i<data['carros'].length; i++){
-            div_carros.innerHTML += "\<form action='/clientes/update_carro/" + data['carros'][i]['id'] +"' method='POST'>\
+            div_carros.innerHTML += "\
+            <form action='/clientes/update_carro/" + data['carros'][i]['id'] +"' method='POST'>\
                 <div class='row'>\
-                        <div class='col-md'>\
-                            <input class='form-control' name='carro' type='text' value='" + data['carros'][i]['fields']['carro'] + "'>\
-                        </div>\
-                        <div class='col-md'>\
-                            <input class='form-control' name='placa' type='text' value='" + data['carros'][i]['fields']['placa'] + "'>\
-                        </div>\
-                        <div class='col-md'>\
-                            <input class='form-control' type='text' name='ano' value='" + data['carros'][i]['fields']['ano'] + "' >\
-                        </div>\
-                        <div class='col-md'>\
-                            <input class='btn btn-lg btn-success' type='submit'>\
-                        </div>\
-                    </form>\
+                    <div class='col-md'>\
+                        <input class='form-control' name='carro' type='text' value='" + data['carros'][i]['fields']['carro'] + "'>\
+                    </div>\
+                    <div class='col-md'>\
+                        <input class='form-control' name='placa' type='text' value='" + data['carros'][i]['fields']['placa'] + "'>\
+                    </div>\
+                    <div class='col-md'>\
+                        <input class='form-control' type='text' name='ano' value='" + data['carros'][i]['fields']['ano'] + "' >\
+                    </div>\
+                    <div class='col-md'>\
+                        <input class='btn btn-lg btn-success' type='submit'>\
+                    </div>\
+            </form>\
                     <div class='col-md'>\
                         <a href='/clientes/excluir_carro/"+ data['carros'][i]['id'] +"' class='btn btn-lg btn-danger'>EXCLUIR</a>\
                     </div>\
-                </div><br>"
+                </div>\
+                <br>"
         }
         
     })
-
-
 }
 
 
