@@ -43,6 +43,9 @@ function dados_cliente(){
     }).then(function(data){ // parametro data é o que é retornado pelo then() acima ou seja o result.json
         document.getElementById('form-att-cliente').style.display = 'block'
 
+        id = document.getElementById('id')
+        id.value = data['cliente_id']
+
         nome = document.getElementById('nome')
         nome.value = data['cliente']['nome']
 
@@ -71,7 +74,7 @@ function dados_cliente(){
                         <input class='form-control' type='text' name='ano' value='" + data['carros'][i]['fields']['ano'] + "' >\
                     </div>\
                     <div class='col-md'>\
-                        <input class='btn btn-lg btn-success' type='submit'>\
+                        <input class='btn btn-lg btn-success' type='submit' value='Salvar'>\
                     </div>\
             </form>\
                     <div class='col-md'>\
@@ -80,7 +83,7 @@ function dados_cliente(){
                 </div>\
                 <br>"
         }
-        
+            
     })
 }
 
@@ -107,7 +110,7 @@ function update_cliente(){
     }).then(function(result){
         return result.json()
     }).then(function(data){
-
+        
         if(data['status'] == '200'){
             nome = data['nome']
             sobrenome = data['sobrenome']
