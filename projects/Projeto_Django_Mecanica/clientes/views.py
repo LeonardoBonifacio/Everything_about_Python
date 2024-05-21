@@ -6,6 +6,9 @@ from django.core import serializers
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
+
+
+
 def clientes(request):
     if request.method == "GET":
         clientes_list = Cliente.objects.all()
