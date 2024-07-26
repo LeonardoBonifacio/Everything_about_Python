@@ -5,6 +5,7 @@ Bibliotecas Usadas:
     Keyboard
     Colorama
 '''
+
 import os, colorama, pygame, time, keyboard
 pygame.mixer.init()
 from colorama import Fore, Back, Style
