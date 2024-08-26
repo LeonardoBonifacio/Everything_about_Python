@@ -3,15 +3,13 @@ from pedido import Pedido
 import os
 
 
-# Exiba os pedidos, bem como seus detalhes, do primeiro ao último
-# Exiba os valores do último ao primeiro
-# Exiba o valor total de todos os pedidos feito.
-# Extra: Prove que é bom --> Exiba o total dos pedidos por tipo de pagamento.
-# Seu programa encerra ao digitar FIM na entrada de pedidos
-
 primeiro = ultimo = None
 listaItens = []
 nomeCliente = enderecoEntrega = formaPagamento = ""
+totalPix = 0
+totalCredito = 0
+totalDebito = 0
+totalDinheiro = 0
 while True:
     while True:
         print("========== MENU DA LANCHONETE ==========")
@@ -38,7 +36,14 @@ while True:
         print("========== Coletando seus dados ==========")
         nomeCliente = input("Digite seu nome: ").strip().capitalize()
         enderecoEntrega = input("Digite seu endereço de entrega: ").strip()
-        formaPagamento = input("Será PIX, DINHEIRO, DÉBITO ou CRÉDITO? ").upper().strip()
+        while True:
+            formaPagamento = input("Será PIX, DINHEIRO, DEBITO ou CREDITO? ").upper().strip()
+            if formaPagamento != "PIX" and formaPagamento != "DINHEIRO" and formaPagamento != "CREDITO" and formaPagamento != "DEBITO":
+                print("Por favor digite a forma de pagamento por extenso e sem acentos")
+                formaPagamento = input("Será PIX, DINHEIRO, DEBITO ou CREDITO? ").upper().strip()
+            else:
+                break
+
         
         pedido = Pedido(listaItens,nomeCliente,enderecoEntrega,formaPagamento)
         novo = Elemento(pedido)
@@ -60,6 +65,7 @@ while True:
     print("[1] - Exibir do primeiro ao último pedido ")
     print("[2] - Exibir do último ao primeiro pedido")
     print("[3] - Exibir valor total de todos os pedidos feitos ")
+    print("[4] - Exibie total de pedidos por tipo de pagamento")
     print("[0] - Encerrar programa ")
     op = input("-> ")
     if op == "1":
@@ -82,6 +88,23 @@ while True:
             valorTotal += aux.valor.valorTotalPedido
             aux = aux.retorna_proximo()
         print(f"O valor total de todos os pedidos foi de R$ {valorTotal}")
+    elif op == "4":
+        aux = primeiro
+        while aux:
+            if aux.valor.forma_pagamento == "PIX":
+                totalPix += aux.valor.valorTotalPedido
+            elif aux.valor.forma_pagamento == "DINHEIRO":
+                totalDinheiro += aux.valor.valorTotalPedido
+            elif aux.valor.forma_pagamento == "CREDITO":
+                totalCredito += aux.valor.valorTotalPedido
+            elif aux.valor.forma_pagamento == "DEBITO":
+                totalDebito += aux.valor.valorTotalPedido
+            aux = aux.retorna_proximo()
+        print(f"Total dos pedidos gasto em Credito {totalCredito}")
+        print(f"Total dos pedidos gasto em Debito {totalDebito}")
+        print(f"Total dos pedidos gasto em Dinheiro {totalDinheiro}")
+        print(f"Total dos pedidos gasto em Pix {totalPix}")
+            
     else:
         print("CABOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
         break
