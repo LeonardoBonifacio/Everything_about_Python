@@ -14,6 +14,7 @@ while True:
             ultimo.defineProximo(novo)
             novo.defineAnterior(ultimo)
             ultimo = novo
+
     else: #o usuário digitou -1 lá nin riba!
         if primeiro != None:
             #impressão da lista de pedidos
@@ -51,8 +52,8 @@ print('\nINSERINDO NO MEIO======================\n')
 
 us = input('Digite a referência: ')
 aux = primeiro
-while aux:
-    if aux.valor == us: #encontrou o valor
+while aux:                                   #aux  novo proxAux
+    if aux.valor == us: #encontrou o valor ant aux prox
         novo = Elemento('50')
         novo.defineAnterior(aux)
         novo.defineProximo(aux.retornaProximo())
@@ -74,7 +75,6 @@ remove = input('\nDeseja remover: ')
 if primeiro.valor == remove: #Removendo do início
     primeiro = primeiro.retornaProximo()
     primeiro.defineAnterior(None)
-    print('Chegou aqui!')
 elif ultimo.valor == remove:#removendo do final
     ultimo = ultimo.retornaAnterior()
     ultimo.defineProximo(None)

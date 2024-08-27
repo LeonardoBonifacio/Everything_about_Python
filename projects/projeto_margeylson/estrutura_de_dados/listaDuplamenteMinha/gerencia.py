@@ -10,6 +10,7 @@ totalPix = 0
 totalCredito = 0
 totalDebito = 0
 totalDinheiro = 0
+
 while True:
     while True:
         print("========== MENU DA LANCHONETE ==========")
@@ -65,7 +66,7 @@ while True:
     print("[1] - Exibir do primeiro ao último pedido ")
     print("[2] - Exibir do último ao primeiro pedido")
     print("[3] - Exibir valor total de todos os pedidos feitos ")
-    print("[4] - Exibie total de pedidos por tipo de pagamento")
+    print("[4] - Exibe total de pedidos por tipo de pagamento")
     print("[0] - Encerrar programa ")
     op = input("-> ")
     if op == "1":
