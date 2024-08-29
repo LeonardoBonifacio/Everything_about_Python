@@ -65,14 +65,47 @@ class DoublyLinkedList:
     def appendBefore(self,data,ref):
         aux = self.head
         while aux:
-            if aux.prev == None and aux.data == ref:
+            if aux.prev == None and aux.data == ref:# Append before the head
                 self.preApend(data)
-            elif aux.data == ref:
+            elif aux.data == ref: # prev newnode aux 
                 newNode = Node(data)
                 aux.getPrev().setNext(newNode)
                 newNode.setNext(aux)
-                aux.setPrev(newNode)
                 newNode.setPrev(aux.getPrev())
+                aux.setPrev(newNode)
+            aux = aux.getNext()
+    
+    def deleteNode(self,nodeWithData):
+        aux = self.head
+        while aux:
+            if aux == self.head and aux.data == nodeWithData:
+                if aux.getNext() == None:#Deleting the head of a empty list
+                    aux = None
+                    self.head = None
+                    return
+                else:
+                    nxt = self.head.getNext() #Deleting the head of a not empty list
+                    aux.setNext(None)
+                    aux = None
+                    nxt.setPrev(None)
+                    self.head = nxt
+                    return
+            elif aux.data == nodeWithData:
+                if aux.getNext():# Removing a node that's not the head either the tail
+                    nxt = aux.getNext()
+                    prev = aux.getPrev()
+                    prev.setNext(nxt)
+                    nxt.setPrev(prev)
+                    aux.setNext(None)
+                    aux.setPrev(None)
+                    aux = None
+                    return
+                else: # Remmoving the tail
+                    prev = aux.getPrev()
+                    prev.setNext(None)
+                    aux.setPrev(None)
+                    aux = None
+                    return
             aux = aux.getNext()
 
 
@@ -89,8 +122,7 @@ dll.append(1)
 dll.append(2)
 dll.append(3)
 dll.append(4)
-dll.preApend(0)
-dll.appendBefore(2.5,3)
-dll.appendAfter(10,4)
-dll.appendBefore(9,10)
+dll.append(5)
+dll.append(6)
+dll.appendBefore(4.5,5)
 dll.printList()
