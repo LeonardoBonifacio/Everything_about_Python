@@ -105,6 +105,7 @@ class DoublyLinkedList:
                     prev.setNext(None)
                     aux.setPrev(None)
                     aux = None
+                    self.tail = prev
                     return
             aux = aux.getNext()
 
